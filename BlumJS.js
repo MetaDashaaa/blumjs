@@ -8,7 +8,8 @@
 // @icon         https://cdn.prod.website-files.com/65b6a1a4a0e2af577bccce96/65ba99c1616e21b24009b86c_blum-256.png
 // ==/UserScript==
 
-(() => {  if (window.BlumAC) return;
+(() => {  
+  if (window.BlumAC) return;
 
   window.BlumAC = true;
 
@@ -29,14 +30,22 @@
       const playButton = document.querySelector(config.playButtonSelector);
       if (playButton && playButton.textContent.toLowerCase().includes("play")) {
         playButton.click();
+
+        // Chờ 3 giây trước khi bắt đầu quá trình tự động click
+        setTimeout(() => {
+          startAutoClick();
+        }, 3000); // 3000ms = 3 giây
       }
     }, config.playCheckInterval);
   }
 
-  setInterval(() => {
-    const canvas = document.querySelector(config.canvasSelector);
-    if (canvas) detectAndClickObjects(canvas);
-  }, config.objectCheckInterval);
+  // Hàm bắt đầu quá trình tự động click
+  function startAutoClick() {
+    setInterval(() => {
+      const canvas = document.querySelector(config.canvasSelector);
+      if (canvas) detectAndClickObjects(canvas);
+    }, config.objectCheckInterval);
+  }
 
   function detectAndClickObjects(canvas) {
     const { width, height } = canvas;
